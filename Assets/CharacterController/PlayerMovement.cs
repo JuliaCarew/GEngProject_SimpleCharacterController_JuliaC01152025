@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private CharacterController characterController;
+    private InputManager inputManager;
+
+    public Vector2 moveDirection = new Vector2(-1.00f, 0.00f);
+
     void Start()
     {
-        
+        characterController = this.GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        //HandlePlayerMove();
+    }
+
+    void HandlePlayerMove(Vector2 moveDirection)
+    {
+        characterController.Move(moveDirection * Time.deltaTime);
+    }
+
+    private void OnEnable()
+    {
+        InputActions.MoveEvent += HandlePlayerMove;
+    }
+    private void OnDisable()
+    {
+        InputActions.MoveEvent -= HandlePlayerMove;
     }
 }
