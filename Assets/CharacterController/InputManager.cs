@@ -43,5 +43,4 @@ public static class InputActions // can expand to add more actions for the playe
     public static Action<Vector2> MoveEvent;    
     public static Action InteractEvent; 
     public static Action InteractEventCancelled;    
-
 }

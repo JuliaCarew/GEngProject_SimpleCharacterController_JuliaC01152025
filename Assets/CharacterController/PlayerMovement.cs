@@ -2,31 +2,30 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private CharacterController characterController;
-    
     [SerializeField]
     private float moveSpeed = 5.0f;
-    public Vector2 moveVector = Vector2.zero;
-
+    private Rigidbody2D playerRigidbody;
+    private Vector2 moveDirection;
+    
     void Awake()
     {
-        characterController = this.GetComponent<CharacterController>();
+        playerRigidbody = this.GetComponent<Rigidbody2D>();
         InputActions.MoveEvent += UpdateMoveVector;
     }
 
     private void UpdateMoveVector(Vector2 inputVector) // player input = moveVector(current vector2 from HandlePlayerMove)
     {
-        moveVector = inputVector;
+        moveDirection = inputVector;
     }
 
     void HandlePlayerMove(Vector2 moveVector) // use .Move functionality to move player on set veriables, gets updated by UpdateMoveVector() method
     {
-        characterController.Move(moveVector * moveSpeed * Time.deltaTime);
+        playerRigidbody.MovePosition(playerRigidbody.position + moveVector * moveSpeed * Time.fixedDeltaTime);
     }
 
-    private void Update() // moving player by character controller component every frame
+    private void FixedUpdate() // moving player by character controller component every frame
     {
-        HandlePlayerMove(moveVector);
+        HandlePlayerMove(moveDirection);
     }
     private void OnDisable()
     {
